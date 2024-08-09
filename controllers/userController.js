@@ -1,6 +1,42 @@
+require("dotenv").config(); // Load environment variables
 const User = require("../models/userModel");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
+const JWT_SECRET = process.env.JWT_SECRET; // Replace with the same secret key
 
-// Controller to get all users
+// Controller to authenticate user and generate token
+exports.loginUser = async (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).send("Email and password are required.");
+  }
+
+  try {
+    // Find user by email
+    const user = await User.findOne({ where: { email } });
+    if (!user) {
+      return res.status(401).send("Invalid email or password.");
+    }
+
+    // Compare password
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).send("Invalid email or password.");
+    }
+
+    // Generate token
+    const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, {
+      expiresIn: "1h", // Token expiration time
+    });
+
+    res.json({ token, user });
+  } catch (error) {
+    console.error("Error logging in user:", error);
+    res.status(500).send("An error occurred while logging in.");
+  }
+};
+
 // Controller to get all users
 exports.getUsers = async (req, res) => {
   try {
@@ -27,7 +63,6 @@ exports.getUsers = async (req, res) => {
     res.status(500).send("An error occurred while retrieving users.");
   }
 };
-
 // Controller to create a new user
 exports.createUser = async (req, res) => {
   const {
@@ -48,13 +83,16 @@ exports.createUser = async (req, res) => {
   }
 
   try {
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     const newUser = await User.create({
       first_name,
       last_name,
       phone_country_code,
       phone_local_number,
       email,
-      password,
+      password: hashedPassword, // Save hashed password
       firm_id,
       branch_id,
       is_active,
