@@ -82,9 +82,7 @@ exports.createMove = async (req, res) => {
     !moving_from ||
     !client_email ||
     !moving_to ||
-    !lead_source ||
-    !remarks ||
-    !notes
+    !lead_source 
   ) {
     return res.status(400).send("Required fields are missing.");
   }
