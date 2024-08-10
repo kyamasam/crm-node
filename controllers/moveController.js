@@ -43,7 +43,7 @@ exports.getMoves = async (req, res) => {
         "consumer_name",
         "corporate_name",
         "moving_from",
-        "contact_information",
+        "client_email",
         "moving_to",
         "lead_source",
         "remarks",
@@ -67,7 +67,7 @@ exports.createMove = async (req, res) => {
     consumer_name,
     corporate_name,
     moving_from,
-    contact_information,
+    client_email,
     moving_to,
     lead_source,
     remarks,
@@ -78,7 +78,7 @@ exports.createMove = async (req, res) => {
   if (
     !branch_id ||
     !moving_from ||
-    !contact_information ||
+    !client_email ||
     !moving_to ||
     !lead_source ||
     !remarks ||
@@ -93,7 +93,7 @@ exports.createMove = async (req, res) => {
       consumer_name,
       corporate_name,
       moving_from,
-      contact_information,
+      client_email,
       moving_to,
       lead_source,
       remarks,
@@ -132,7 +132,7 @@ exports.updateMove = async (req, res) => {
     consumer_name,
     corporate_name,
     moving_from,
-    contact_information,
+    client_email,
     moving_to,
     lead_source,
     remarks,
@@ -155,8 +155,7 @@ exports.updateMove = async (req, res) => {
       move.consumer_name = consumer_name || move.consumer_name;
       move.corporate_name = corporate_name || move.corporate_name;
       move.moving_from = moving_from || move.moving_from;
-      move.contact_information =
-        contact_information || move.contact_information;
+      move.client_email = client_email || move.client_email;
       move.moving_to = moving_to || move.moving_to;
       move.lead_source = lead_source || move.lead_source;
       move.remarks = remarks || move.remarks;

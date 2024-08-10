@@ -29,10 +29,10 @@ const Move = sequelize.define(
       allowNull: false,
       field: "moving_from", // Maps to `moving_from` column in the database
     },
-    contact_information: {
+    client_email: {
       type: DataTypes.STRING,
       allowNull: false,
-      field: "contact_information", // Maps to `contact_information` column in the database
+      field: "client_email", // Maps to `contact_information` column in the database
     },
     moving_to: {
       type: DataTypes.STRING,
