@@ -1,36 +1,28 @@
+const Move = require("../models/moveModel");
+const User = require("../models/userModel");
 const Branch = require("../models/branchModel");
-const { User } = require("../models/userModel"); // Ensure this import is correct
 
+// Middleware to check if the user has access to the move
 const checkAccess = async (req, res, next) => {
   try {
-    // Check if the User model is loaded correctly
-    if (!User) {
-      console.error("User model is not defined.");
-      return res.status(500).send("Server error: User model is not defined.");
+    const user = await User.findByPk(req.user.id); // Ensure user is fetched correctly
+    const { branch_id } = req.body; // For create/update operations
+    const moveId = req.params.id; // For update/delete operations
+
+    if (user.user_type === "super_admin") {
+      return next(); // Admins and super admins have full access
     }
 
-    const user = await User.findByPk(req.user.id);
-
-    if (!user) {
-      return res.status(403).send("User not found.");
-    }
-
-    const branchId = req.params.id;
-    const { firm_id } = req.body;
-
-    // Admins and Super Admins have full access
-    if (user.user_type === "admin" || user.user_type === "super_admin") {
-      return next();
-    }
-
-    // Firm Owners can only create or edit branches within their own firm
     if (user.user_type === "user") {
-      if (branchId) {
-        const branch = await Branch.findByPk(branchId);
-        if (branch && branch.firm_id === user.firm_id) {
-          return next();
+      if (moveId) {
+        const move = await Move.findByPk(moveId);
+        if (move) {
+          const branch = await Branch.findByPk(move.branch_id);
+          if (branch && branch.firm_id === user.firm_id) {
+            return next(); // Users within the same firm can access moves in their firm
+          }
         }
-      } else if (firm_id && firm_id === user.firm_id) {
+      } else if (branch_id && branch_id === user.branch_id) {
         return next();
       }
     }
@@ -38,7 +30,7 @@ const checkAccess = async (req, res, next) => {
     return res.status(403).send("Access denied.");
   } catch (error) {
     console.error("Error in checkAccess middleware:", error);
-    return res.status(500).send("An error occurred while checking access.");
+    return res.status(500).send("Server error.");
   }
 };
 

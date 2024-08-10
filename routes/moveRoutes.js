@@ -6,7 +6,7 @@ const checkAccess = require("../middleware/checkAccess"); // Access control for 
 
 // Apply authentication and authorization middleware to all routes
 router.use(authenticateToken);
-router.use(checkAccess); // Only admins and users with access can access these routes
+router.use(checkAccess);
 
 // Route to get all moves
 router.get("/", moveController.getMoves);

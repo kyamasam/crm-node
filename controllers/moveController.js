@@ -9,7 +9,7 @@ const checkAccess = async (req, res, next) => {
     const { branch_id } = req.body; // For create/update operations
     const moveId = req.params.id; // For update/delete operations
 
-    if (user.user_type === "admin" || user.user_type === "super_admin") {
+    if (user.user_type === "super_admin") {
       return next(); // Admins have full access
     }
 

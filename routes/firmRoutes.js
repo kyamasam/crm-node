@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const firmController = require("../controllers/firmController");
 const authenticateToken = require("../middleware/authenticateToken");
+const checkAccess = require("../middleware/checkAccess");
 
 // Route to get all firms
 router.get("/", authenticateToken, firmController.getFirms);
