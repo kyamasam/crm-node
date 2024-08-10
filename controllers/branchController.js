@@ -29,6 +29,8 @@ exports.getBranches = async (req, res) => {
         "id",
         "name",
         "firm_id",
+        "registration_number",
+        "location",
         "is_active",
         "created_at",
         "updated_at",
@@ -53,6 +55,8 @@ exports.createBranch = async (req, res) => {
     const newBranch = await Branch.create({
       name,
       firm_id,
+      registration_n,
+      location,
       is_active,
     });
 
@@ -82,7 +86,7 @@ exports.getBranchById = async (req, res) => {
 // Controller to update a branch
 exports.updateBranch = async (req, res) => {
   const { id } = req.params;
-  const { name, firm_id, is_active } = req.body;
+  const { name, firm_id, is_active, registration_number, location } = req.body;
 
   try {
     const branch = await Branch.findByPk(id);
@@ -100,6 +104,9 @@ exports.updateBranch = async (req, res) => {
       branch.name = name || branch.name;
       branch.firm_id = firm_id || branch.firm_id;
       branch.is_active = is_active || branch.is_active;
+      branch.location = location || branch.location;
+      branch.registration_number =
+        registration_number || branch.registration_number;
 
       await branch.save();
       res.json(branch);

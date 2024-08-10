@@ -11,6 +11,18 @@ const Branch = sequelize.define(
       unique: true,
       field: "name", // Maps to `name` column in the database
     },
+    location: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      unique: false,
+      field: "location",
+    },
+    registration_number: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      unique: false,
+      field: "registration_number",
+    },
     firm_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
