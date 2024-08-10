@@ -13,7 +13,13 @@ const checkAccess = async (req, res, next) => {
       return next(); // Admins and super admins have full access
     }
 
-    if (user.user_type === "user") {
+    if (
+      user.user_type === "user" ||
+      user.user_type === "branch_manager" ||
+      user.user_type === "firm_owner" ||
+      user.user_type === "marketing_lead" ||
+      user.user_type === "sales_person"
+    ) {
       if (moveId) {
         const move = await Move.findByPk(moveId);
         if (move) {
@@ -23,7 +29,7 @@ const checkAccess = async (req, res, next) => {
           }
         }
       } else if (branch_id && branch_id === user.branch_id) {
-        return next();
+        return next(); // Users within the same branch can access moves in their branch
       }
     }
 

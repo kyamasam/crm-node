@@ -153,7 +153,17 @@ exports.updateMove = async (req, res) => {
     const user = await User.findByPk(req.user.id); // Fetch user again here
     if (
       user.user_type === "admin" ||
-      (user.user_type === "user" && move.branch_id === user.branch_id)
+      user.user_type === "super_admin" ||
+      (user.user_type === "user" && move.branch_id === user.branch_id) ||
+      (user.user_type === "branch_manager" &&
+        move.branch_id === user.branch_id &&
+        user.id === move.sales_representative) ||
+      (user.user_type === "marketing_lead" &&
+        move.branch_id === user.branch_id &&
+        user.id === move.sales_representative) ||
+      (user.user_type === "sales_person" &&
+        move.branch_id === user.branch_id &&
+        user.id === move.sales_representative)
     ) {
       move.branch_id = branch_id || move.branch_id;
       move.consumer_name = consumer_name || move.consumer_name;
@@ -193,7 +203,14 @@ exports.deleteMove = async (req, res) => {
     if (
       user.user_type === "admin" ||
       user.user_type === "super_admin" ||
-      (user.user_type === "user" && move.branch_id === user.branch_id)
+      (user.user_type === "branch_manager" &&
+        move.branch_id === user.branch_id) ||
+      (user.user_type === "marketing_lead" &&
+        move.branch_id === user.branch_id &&
+        user.id === move.sales_representative) ||
+      (user.user_type === "sales_person" &&
+        move.branch_id === user.branch_id &&
+        user.id === move.sales_representative)
     ) {
       await move.destroy();
       res.status(204).send();
