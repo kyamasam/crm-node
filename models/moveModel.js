@@ -9,65 +9,70 @@ const Move = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: "branches", // name of the table
+        model: "branches",
         key: "id",
       },
-      field: "branch_id", // Maps to `branch_id` column in the database
+      field: "branch_id",
     },
     consumer_name: {
       type: DataTypes.STRING,
       allowNull: true,
-      field: "consumer_name", // Maps to `consumer_name` column in the database
+      field: "consumer_name",
     },
     corporate_name: {
       type: DataTypes.STRING,
       allowNull: true,
-      field: "corporate_name", // Maps to `corporate_name` column in the database
+      field: "corporate_name",
     },
     moving_from: {
       type: DataTypes.STRING,
       allowNull: false,
-      field: "moving_from", // Maps to `moving_from` column in the database
+      field: "moving_from",
     },
     client_email: {
       type: DataTypes.STRING,
       allowNull: false,
-      field: "client_email", // Maps to `contact_information` column in the database
+      field: "client_email",
     },
     moving_to: {
       type: DataTypes.STRING,
       allowNull: false,
-      field: "moving_to", // Maps to `moving_to` column in the database
+      field: "moving_to",
     },
     lead_source: {
       type: DataTypes.STRING,
       allowNull: false,
-      field: "lead_source", // Maps to `lead_source` column in the database
+      field: "lead_source",
     },
     remarks: {
       type: DataTypes.STRING,
       allowNull: false,
-      field: "remarks", // Maps to `remarks` column in the database
+      field: "remarks",
     },
     notes: {
       type: DataTypes.STRING,
       allowNull: false,
-      field: "notes", // Maps to `notes` column in the database
+      field: "notes",
     },
     sales_representative: {
       type: DataTypes.INTEGER,
       allowNull: true,
       references: {
-        model: "users", // name of the table
+        model: "users",
         key: "id",
       },
-      field: "sales_representative", // Maps to `sales_representative` column in the database
+      field: "sales_representative",
+    },
+    is_active: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true,
+      field: "is_active", // Maps to `is_active` column in the database
     },
   },
   {
     tableName: "moves",
     timestamps: true,
-    underscored: true, // Automatically converts camelCase to snake_case
+    underscored: true,
   }
 );
 

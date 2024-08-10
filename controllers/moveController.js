@@ -49,6 +49,7 @@ exports.getMoves = async (req, res) => {
         "remarks",
         "notes",
         "sales_representative",
+        "is_active",
         "created_at",
         "updated_at",
       ],
@@ -73,6 +74,7 @@ exports.createMove = async (req, res) => {
     remarks,
     notes,
     sales_representative,
+    is_active,
   } = req.body;
 
   if (
@@ -99,6 +101,7 @@ exports.createMove = async (req, res) => {
       remarks,
       notes,
       sales_representative,
+      is_active,
     });
 
     res.status(201).json(newMove);
@@ -138,6 +141,7 @@ exports.updateMove = async (req, res) => {
     remarks,
     notes,
     sales_representative,
+    is_active,
   } = req.body;
 
   try {
@@ -160,6 +164,7 @@ exports.updateMove = async (req, res) => {
       move.lead_source = lead_source || move.lead_source;
       move.remarks = remarks || move.remarks;
       move.notes = notes || move.notes;
+      move.is_active = is_active || move.is_active;
       move.sales_representative =
         sales_representative || move.sales_representative;
 
