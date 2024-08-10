@@ -37,6 +37,40 @@ exports.loginUser = async (req, res) => {
   }
 };
 
+// Controller to get users by branch
+exports.getUsersByBranch = async (req, res) => {
+  const { branch_id } = req.params;
+
+  try {
+    const users = await User.findAll({
+      where: { branch_id },
+      attributes: [
+        "id",
+        "first_name",
+        "last_name",
+        "phone_country_code",
+        "phone_local_number",
+        "email",
+        "firm_id",
+        "branch_id",
+        "is_active",
+        "user_type",
+        "created_at",
+        "updated_at",
+      ],
+    });
+
+    if (users.length === 0) {
+      return res.status(404).send("No users found for this branch.");
+    }
+
+    res.json(users);
+  } catch (error) {
+    console.error("Error retrieving users by branch:", error);
+    res.status(500).send("An error occurred while retrieving users by branch.");
+  }
+};
+
 // Controller to get all users
 exports.getUsers = async (req, res) => {
   try {

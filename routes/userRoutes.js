@@ -15,6 +15,13 @@ router.post("/", userController.createUser);
 // Route to get a user by ID
 router.get("/:id", authenticateToken, userController.getUserById);
 
+// Route to get a user by branch
+router.get(
+  "/branch/:branch_id",
+  authenticateToken,
+  userController.getUsersByBranch
+);
+
 // Route to update a user by ID
 router.put("/:id", authenticateToken, userController.updateUser);
 
