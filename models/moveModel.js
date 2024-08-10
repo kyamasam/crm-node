@@ -46,7 +46,7 @@ const Move = sequelize.define(
     },
     remarks: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
       field: "remarks",
     },
     notes: {
